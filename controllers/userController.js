@@ -38,13 +38,14 @@ const getAllUsers = async (req, res) => {
 
   const addUser = async (req, res) => {
     try {
-      const { UserName, UserEmail, UserPassword } = req.body;
+      const { UserName, UserEmail, UserPassword, Role } = req.body;
       const hashedPassword = await bcrypt.hash(UserPassword, 10);
       console.log('Hashed Password:', hashedPassword);
       const newUser = await Users.create({
         UserName,
         UserEmail,
         UserPassword: hashedPassword,
+        Role,
       });
       console.log('New User:', newUser); 
       res.status(200).json({
