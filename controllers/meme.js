@@ -2,7 +2,7 @@ const Meme=require('../models/meme');
 const add =async(req,res)=>{
     try{
         const meme=new Meme({
-            image:req.body.image,
+            img:req.body.img,
             text:req.body.text,
             creator:req.body.creator
         })
@@ -33,8 +33,12 @@ const getOne =async(req,res)=>{
 }
 const remove=async(req,res)=>{
     try{
-        const result=await Meme.findByIdAndRemove({_id:req.params.id});
+        const result=await Meme.findById({_id:req.params.id});
         if(!result)throw new Error("An error occured");
+        if(result.creator==req.body.creator){
+            const del=await Meme.deleteOne({_id:req.params.id});
+            if(!del) res.status(500).json({message:"An error occured during deleting one meme by id ",error})
+        }
         res.status(200).json({message:"One meme deleted successfully",result});
     }catch(error){
         res.status(500).json({message:"An error occured during deleting one meme by id ",error})
@@ -42,16 +46,18 @@ const remove=async(req,res)=>{
 }
 const update=async(req,res)=>{
     try{
-        const result=await Meme.findByIdAndUpdate(
-            req.params.id,
-            {
-                image: req.body.image,
+        const result=await Meme.findById({
+            _id:req.params.id,
+        })
+        if(!result)throw new Error("An error occured");
+        if(result.creator==req.body.creator){
+            const update=await Meme.updateOne({ _id:req.params.id},  {
+                img: req.body.img,
                 text: req.body.text,
                 creator: req.body.creator,
-            },
-            { new: true } 
-        );
-        if(!result)throw new Error("An error occured");
+            })
+            if(!update)res.status(500).json({message:"An error occured during updating one meme",error})
+        }
         res.status(200).json({message:"One meme updated successfully",result});
     }catch(error){
         res.status(500).json({message:"An error occured during updating one meme",error})

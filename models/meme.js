@@ -1,7 +1,7 @@
 const mongoose=require('mongoose');
 const Schema=mongoose.Schema;
 const meme=new Schema({
-    image:{
+    img:{
         type:String,
         required: true,
         unique: true, 
@@ -14,7 +14,6 @@ const meme=new Schema({
     creator:{
         type:String,
         required: true,
-        unique: true,
     }
 }, {
     timestamps: true//new topic 

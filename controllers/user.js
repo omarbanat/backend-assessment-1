@@ -27,7 +27,7 @@ const register = async (req, res) => {
   const login=async(req,res)=>{
     try{
       let {email, password}=req.body;
-      const result=await admin.findOne({email:email});
+      const result=await User.findOne({email:email});
       if(! result)res.status(404).json({message:"An error occured"});
       const resultat= await bcrypt.compare(password, result.password);
       if(!resultat)res.status(401).json({message:"Wrong password"});
