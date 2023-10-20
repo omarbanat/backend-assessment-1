@@ -41,34 +41,39 @@ const getmemebyID = async (req, res) => {
 };
 
 const addmeme = async (req, res) => {
-    const{imageUrl, textCaption, userReference} = req.body
-  try {
-    const formData = new FormData();
-    formData.append('key', process.env.key);
-    formData.append('image', req.file.buffer.toString('base64'));
-    const response = await axios.post(
-        'https://api.imgbb.com/1/upload',
-        formData
-    );
-
-    const image_URL = response.data.data.url
-
-
-
-    const memes = await Meme.create({imageUrl:(image_URL), textCaption, userReference});
-    res.status(200).json({
-      success: true,
-      message: 'meme added successfully',
-      data: memes,
-    });
-  } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'meme not added successfully',
-      error: error,
-    });
-  }
-};
+    const { imageUrl, textCaption, userReference } = req.body;
+    try {
+      // Create a FormData object and append the image buffer
+      const formData = new FormData();
+      formData.append('key', process.env.key);
+      formData.append('image', req.file.buffer, {
+        filename: 'meme.png', // Set the filename here
+      });
+  
+      // Use the correct axios configuration for file upload
+      const response = await axios.post('https://api.imgbb.com/1/upload', formData, {
+        headers: {
+          ...formData.getHeaders(), // Set proper headers for form data
+        },
+      });
+  
+      const image_URL = response.data.data.url;
+  
+      const memes = await Meme.create({ imageUrl: image_URL, textCaption, userReference });
+      res.status(200).json({
+        success: true,
+        message: 'Meme added successfully',
+        data: memes,
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        message: 'Meme not added successfully',
+        error: error,
+      });
+    }
+  };
+  
 
 const updatememeByID = async (req, res) => {
   try {

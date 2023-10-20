@@ -1,19 +1,20 @@
 const express = require('express');
 const router = express.Router();
 
+
 const {
-    getAllMemes,
-    getMemeByID,
-    addMeme,
-    updateMemeByID,
-    deleteMeme,
+    getAllmemes,
+    getmemebyID,
+    addmeme,
+    updatememeByID,
+    deletememe,
 } = require('../controllers/memeController');
 
-
-router.getAll('/getAll', getAllMemes);
-router.get('/get/:ID', getMemeByID);
-router.post('/add', addMeme);
-router.put('/update/:ID', updateMemeByID);
-router.delete('/delete/:ID', deleteMeme);
+router.get('/get', getAllmemes);
+router.get('/get/:ID', getmemebyID);
+router.post('/add', addmeme);
+router.put('/update/:ID', updatememeByID);
+router.delete('/delete/:ID', deletememe);
 
 module.exports = router;
+

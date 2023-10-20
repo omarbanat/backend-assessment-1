@@ -1,14 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const User = require('../controllers/userController'); 
 
-
-const {
-    getuser,
-    adduser,
-} = require('../controllers/memeController');
-
-router.get('/get/:username/:password', getuser); 
-router.post('/add', adduser); 
+router.get('/get/:username/:password', User.getuser); 
+router.post('/add', User.adduser); 
 
 module.exports = router;
 
