@@ -5,7 +5,7 @@ const MemeSchema = new Schema({
     MemeTitle: { type: String, required: true },
     MemeImage: { type: String, required: true },
     MemeCaption: { type: String, required: true },
-    UserName: { type: String, required: true, unique: true },
+    UserId: { type: String, required: true },
 }, {
     timestamps: true 
 });

@@ -50,18 +50,43 @@ const getAllMemes = async (req, res) => {
     }
   };
 
+  const getMemeByUserId = async (req, res) => {
+    try {
+      const userId = req.params.UserId; 
+      const memes = await Meme.find({ UserId: userId });
+      if (!memes) {
+        return res.status(404).json({
+          success: false,
+          message: 'No memes found for the given UserId',
+        });
+      }
+  
+      res.status(200).json({
+        success: true,
+        message: 'Memes retrieved successfully',
+        data: memes,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Unable to get memes by UserId',
+        error: error,
+      });
+    }
+  };
+
+  // i did this so that in the front it takes the userId and gives us the opportunity to edit only on the data fetched by this api that are just his meme
+  
+
 
   const addMeme = async (req, res) => {
-    const  {MemeTitle , MemeCaption , UserName} = req.body;
+    const  {MemeTitle , MemeCaption , UserId} = req.body;
     try {
      const image = await FileUpload(req.file); 
-
-     
-  
       const meme = new Meme({
         MemeTitle , 
         MemeCaption , 
-        UserName ,
+        UserId,
         MemeImage: image.downloadURL, 
       });
   
@@ -183,4 +208,5 @@ const getAllMemes = async (req, res) => {
     addMeme,
     deleteMemeByID,
     updateMemeByID ,
+    getMemeByUserId,
   };

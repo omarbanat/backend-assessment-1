@@ -27,7 +27,7 @@ const getAllUsers = async (req, res) => {
         data: User,
       });
     } catch (error) {
-      res.status(200).json({
+      res.status(400).json({
         success: false,
         message: 'unable to get data by ID',
         error: error,
@@ -81,6 +81,7 @@ const getAllUsers = async (req, res) => {
       });
     }
     };
+  
 
   const updateUserByID = async (req, res) => {
     try {
