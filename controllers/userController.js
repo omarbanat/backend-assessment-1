@@ -29,7 +29,16 @@ const adduser = async (req, res) => {
 
 const getuser = async (req, res) => {
   try {
-    const { username, password } = req.params;
+    const { username } = req.params;
+    const { password } = req.body;
+
+    if (!username || !password) {
+      res.status(400).json({
+        success: false,
+        message: 'Both username and password are required',
+      });
+      return;
+    }
 
     const user = await User.findOne({ username });
 
@@ -64,6 +73,8 @@ const getuser = async (req, res) => {
     });
   }
 };
+
+
 
 module.exports = {
   adduser,

@@ -6,7 +6,6 @@ const { Schema, model } = mongoose;
 const memeSchema = new Schema({
   imageUrl: {
     type: String,
-    required: true
   },
   textCaption: {
     type: String,

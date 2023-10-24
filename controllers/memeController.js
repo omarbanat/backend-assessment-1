@@ -40,6 +40,21 @@ const getmemebyID = async (req, res) => {
   }
 };
 
+
+//  const  addmeme = async (req, res) => {
+//   try {
+//     const { textCaption, userReference } = req.body;
+
+
+
+
+//     res.status(201).json(newMeme);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'An error occurred.' });
+//   }
+// };
+
 const addmeme = async (req, res) => {
     const { imageUrl, textCaption, userReference } = req.body;
     try {
@@ -47,8 +62,9 @@ const addmeme = async (req, res) => {
       const formData = new FormData();
       formData.append('key', process.env.key);
       formData.append('image', req.file.buffer, {
-        filename: 'meme.png', // Set the filename here
+        filename: 'meme.jpg', // Set the filename here
       });
+      console.log(req.file.buffer);
   
       // Use the correct axios configuration for file upload
       const response = await axios.post('https://api.imgbb.com/1/upload', formData, {
@@ -56,6 +72,7 @@ const addmeme = async (req, res) => {
           ...formData.getHeaders(), // Set proper headers for form data
         },
       });
+      console.log(response);
   
       const image_URL = response.data.data.url;
   
