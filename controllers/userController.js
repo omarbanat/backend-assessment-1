@@ -64,5 +64,34 @@ const getUser = async (req, res) => {
   }
 };
 
+const getAllUsers = async (req, res) => {
+  try {
+    const memes = await User.find();
+    res.status(200).json({
+      success: true,
+      message: 'users retrieved successfully',
+      data: memes,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'unable to get data',
+      error: error,
+    });
+  }
+};
 
-module.exports = { getUser, addUser };
+const deleteAll = async (req, res) => {
+  try {
+    await User.deleteMany({});
+    res.status(202).json({message:"users deleted successfully"});
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: 'Unable to delete users',
+      error: error,
+    });
+  }
+};
+
+module.exports = { getUser, addUser ,getAllUsers, deleteAll};
